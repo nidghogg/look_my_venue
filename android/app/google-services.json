@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "47030354273",
+    "project_id": "look-my-venue",
+    "storage_bucket": "look-my-venue.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47030354273:android:9e1ecdbd680f541d4a8520",
+        "android_client_info": {
+          "package_name": "com.hasslefree.lookmyvenue_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47030354273-plud6aj78o47n3mp9lbn1sjru00f070b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhJKDMaDMFF739SLtzGiJhqvAADIh7-SU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47030354273-plud6aj78o47n3mp9lbn1sjru00f070b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
