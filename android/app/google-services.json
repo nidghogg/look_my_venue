@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "47030354273-br4cru104e5cjt2t4hnplgqr3udsac9l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hasslefree.lookmyvenue_app",
+            "certificate_hash": "82875314e379fc083781c10b4973e35a22ad0993"
+          }
+        },
+        {
           "client_id": "47030354273-plud6aj78o47n3mp9lbn1sjru00f070b.apps.googleusercontent.com",
           "client_type": 3
         }

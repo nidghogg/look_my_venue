@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../login_screen.dart';
 import 'components/care_view.dart';
@@ -38,7 +37,6 @@ class _IntroductionAnimationScreenState
 
   @override
   Widget build(BuildContext context) {
-    print(_animationController?.value);
     return Scaffold(
       backgroundColor: const Color(0xffF7EBE1),
       body: ClipRect(

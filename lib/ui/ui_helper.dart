@@ -11,6 +11,8 @@ class UIHelper {
   static const String name = "Name";
   static const String welcome = "Welcome";
   static const String email = "Email address";
+  static const String profile = "Profile Details";
+  static const String profilelower = "User Profile";
   static const String username = "Username";
   static const String password = "Password";
   static const String mobile = "Mobile Number";

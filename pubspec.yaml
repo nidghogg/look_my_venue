@@ -41,10 +41,11 @@ dependencies:
   # Firebase Dependencies
   firebase_auth: ^3.3.7
   firebase_storage: ^10.2.7
+  firebase_core: ^1.12.0
   image_picker: ^0.8.4+8
   get_it: ^7.2.0
   intl_phone_number_input: ^0.7.0+2
-  firebase_core: ^1.12.0
+  introduction_screen: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +71,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/myjpeg.png
+    - assets/myjpeg.jpg
     - assets/introduction_animation/
     - assets/images/
 

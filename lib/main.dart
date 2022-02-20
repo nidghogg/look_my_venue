@@ -1,10 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lookmyvenue_app/locator.dart';
-import 'package:lookmyvenue_app/screens/intro_screen/intro_animation_screen.dart';
+import 'package:lookmyvenue_app/screens/onboarding_screen.dart';
 import 'package:lookmyvenue_app/ui/ui_helper.dart';
 
-void main() {
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  if(kIsWeb){
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyBI7_tT-UG0PrH4fzO9cVgo0h5OjwE7o0Q",
+          authDomain: "look-my-venue.firebaseapp.com",
+          projectId: "look-my-venue",
+          storageBucket: "look-my-venue.appspot.com",
+          messagingSenderId: "47030354273",
+          appId: "1:47030354273:web:2696e95200c149614a8520",
+          measurementId: "G-41WMBPG04X"
+      )
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+
   setupServices();
   runApp(const MyApp());
 }
@@ -15,21 +37,34 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-         designSize: const Size(900, 900),
-         minTextAdapt: true,
-         splitScreenMode: true,
-          builder: () =>MaterialApp(
-              title: 'UI Login',
-              theme: ThemeData(
-                primaryColor: UIHelper.THEME_PRIMARY,
-                primaryColorLight: UIHelper.THEME_LIGHT,
-                primaryColorDark: UIHelper.THEME_DARK,
-              ),
-              debugShowCheckedModeBanner: false,
-              home: const IntroductionAnimationScreen(),
-        )
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
     );
+
+    return ScreenUtilInit(
+        designSize: const Size(900, 900),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: () => MaterialApp(
+            title: 'UI Login',
+            theme: ThemeData(
+              primaryColor: UIHelper.THEME_PRIMARY,
+              primaryColorLight: UIHelper.THEME_LIGHT,
+              primaryColorDark: UIHelper.THEME_DARK,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              body: StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return OnBoardingPage();
+                  } else {
+                    return OnBoardingPage();
+                  }
+                },
+              ),
+            )));
   }
 }
 

@@ -1,17 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lookmyvenue_app/screens/userForm_screen.dart';
-import '../ui/ui_helper.dart';
 
-class OTPverify extends StatefulWidget {
-  const OTPverify({Key? key}) : super(key: key);
+import '../ui/ui_helper.dart';
+import 'navigation.dart';
+
+class UserFormScreen extends StatefulWidget {
+  const UserFormScreen({Key? key}) : super(key: key);
 
   @override
-  _OTPverifyState createState() => _OTPverifyState();
+  _UserFormScreenState createState() => _UserFormScreenState();
 }
 
-class _OTPverifyState extends State<OTPverify> {
+class _UserFormScreenState extends State<UserFormScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.setContext(context);
@@ -20,7 +26,7 @@ class _OTPverifyState extends State<OTPverify> {
         constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/myjpeg.jpg"), fit: BoxFit.cover)),
+                image: AssetImage("assets/myjpeg.jpg"), fit: BoxFit.fill)),
         //color: UIHelper.LOGINSCREEN_PRIMARY_COLOR,
         child: Column(
           children: <Widget>[
@@ -36,10 +42,10 @@ class _OTPverifyState extends State<OTPverify> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(5, 50, 15, 50),
           child: Text(
-            UIHelper.verifyOTP,
+            UIHelper.profile,
             style: TextStyle(
               color: Colors.black,
-              fontSize: UIHelper.dynamicSp(150),
+              fontSize: UIHelper.dynamicSp(120),
               fontWeight: FontWeight.w200,
             ),
           ),
@@ -61,24 +67,20 @@ class _OTPverifyState extends State<OTPverify> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    UIHelper.verifyOTPlower,
+                    UIHelper.profilelower,
                     style: TextStyle(
                         fontSize: UIHelper.dynamicSp(70),
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1),
                   ),
-                  const Text("Please enter the OTP received to your number"),
-                  _textField("6-digit number", false),
+                  const Text("Please complete your profile"),
+                  _textField(
+                      "Enter your name", false, _nameController),
+                  _textField(
+                      "Enter your email address", false, _emailController),
+                  _textField("Enter password", true, _passwordController),
+                  _textField("Confirm password", true, _confirmPasswordController),
                   _signupButton,
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                  //   children: <Widget>[
-                  //     // _loginButton,
-                  //     // const SizedBox(height: 10),
-                  //     _signupButton,
-                  //   ],
-                  // )
                 ],
               ),
             ),
@@ -86,30 +88,26 @@ class _OTPverifyState extends State<OTPverify> {
         ),
       );
 
-  Widget _textField(String text, bool obscure) {
+  Widget _textField(String text, bool obscure, TextEditingController ctrl) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 20, 40, 10),
+      padding: const EdgeInsets.fromLTRB(10, 20, 20, 10),
       child: TextField(
+        controller: ctrl,
         keyboardType: TextInputType.number,
         style: const TextStyle(color: Colors.grey),
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
         obscureText: obscure,
         autocorrect: false,
         onSubmitted: (value) {
           print(value);
-          validateNumber(value);
         },
         onChanged: (value) {
           print(value);
-          validateNumber(value);
         },
         cursorColor: Colors.grey,
         maxLines: 1,
-        maxLength: 6,
         decoration: InputDecoration(
-          // isDense: true,
-          // prefixIcon: const Text("+91  "),
-          // prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          isDense: true,
           border: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.grey)),
           hintText: text,
@@ -117,11 +115,6 @@ class _OTPverifyState extends State<OTPverify> {
         ),
       ),
     );
-  }
-
-  var myNum = "";
-  validateNumber(value) {
-    myNum = value;
   }
 
   Widget get _signupButton => Center(
@@ -161,16 +154,14 @@ class _OTPverifyState extends State<OTPverify> {
                     ),
                   ),
                   onPressed: () {
-                    //TODO: otp verification if true go for form screen or verify once again
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const UserFormScreen()),
+                          builder: (context) => const NavigationHomeScreen()),
                     );
                   },
                   child: const Text(
-                    UIHelper.signUpLower,
+                    'Create',
                     style: TextStyle(
                         fontSize: 20, color: UIHelper.SPOTIFY_TEXT_COLOR),
                   ),

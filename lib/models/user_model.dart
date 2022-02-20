@@ -1,5 +1,5 @@
 class UserModel {
-  String uid;
+  late String uid;
   String? displayName;
   String? avatarUrl;
 

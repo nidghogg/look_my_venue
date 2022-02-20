@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:lookmyvenue_app/screens/signup_screen.dart';
-
 import '../ui/ui_helper.dart';
 import '../ui/widgets/forgetPassButton_widget.dart';
-import 'navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import 'navigation.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
   @override
@@ -19,8 +19,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController controller = TextEditingController();
+
+  final TextEditingController _emailControler = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   String initialCountry = 'IN';
   PhoneNumber number = PhoneNumber(isoCode: 'IN');
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailControler.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
         constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/myjpeg.png"),
-                fit: BoxFit.fitHeight)
+                image: AssetImage("assets/myjpeg.jpg"),
+                fit: BoxFit.fill)
         ),
         //color: UIHelper.LOGINSCREEN_PRIMARY_COLOR,
         child: Column(
@@ -41,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
             //   const BorderRadius.all(Radius.circular(16.0)),
             //   child: AspectRatio(
             //       aspectRatio: 1.0,
-            //       child: Image.asset('assets/myjpeg.png')),
+            //       child: Image.asset('assets/myjpeg.jpg')),
             // ),
           ],
         ),
@@ -85,8 +97,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     letterSpacing: 1),
               ),
               const Text("Sign in with Mobile no. to continue"),
-              _myPhoneField(),
+              // _myPhoneField(),
               // _textField(UIHelper.mobile, false, true),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                child: TextField(
+                  controller: _emailControler,
+                  style: const TextStyle(color: Colors.grey),
+                  textAlign: TextAlign.left,
+                  obscureText: false,
+                  autocorrect: false,
+                  onSubmitted: (value){
+                    print(value);
+                  },
+                  cursorColor: Colors.grey,
+                  maxLines: 1,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey)),
+                    hintText: UIHelper.email,
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                ),
+              ),
+              // _textField(UIHelper.password, false, false),
               _textField(UIHelper.password, true, false),
               const ForgetPasswordButton(
                 color: UIHelper.LOGINSCREEN_PRIMARY_COLOR,
@@ -176,6 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
         child: TextField(
+          controller: _passwordController,
           style: const TextStyle(color: Colors.grey),
           textAlign: TextAlign.left,
           obscureText: obscure,
@@ -196,9 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
-  void showDialog(){
 
-  }
   Widget get _loginButton => Center(
     child: Padding(
         padding: const EdgeInsets.only(top: 70),
@@ -233,10 +267,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const NavigationHomeScreen()),
-                );
+                signIn();
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const NavigationHomeScreen()),
+                // );
               },
               child: const Text(
                 UIHelper.signInLower,
@@ -295,4 +330,52 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         )),
   );
+  Future signIn() async {
+
+    try {
+      var result = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailControler.text.trim(),
+          password: _passwordController.text.trim()
+      );
+      if(result.user != null){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const NavigationHomeScreen()),
+        );
+      }
+    } on Exception catch (e) {
+      // TODO
+      var errorMsg = e.toString();
+      _showDialog(errorMsg);
+    }
+  }
+  Future<void> _showDialog(String e) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('An error occurred'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text(
+                  'error occured'
+                ),
+                // Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

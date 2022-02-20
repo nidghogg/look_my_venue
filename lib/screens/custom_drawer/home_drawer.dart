@@ -2,9 +2,13 @@
 
 import 'package:flutter/material.dart';
 
-
 class HomeDrawer extends StatefulWidget {
-  const HomeDrawer({Key? key, this.screenIndex, this.iconAnimationController, this.callBackIndex}) : super(key: key);
+  const HomeDrawer(
+      {Key? key,
+      this.screenIndex,
+      this.iconAnimationController,
+      this.callBackIndex})
+      : super(key: key);
 
   final AnimationController? iconAnimationController;
   final DrawerIndex? screenIndex;
@@ -79,10 +83,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     animation: widget.iconAnimationController!,
                     builder: (BuildContext context, Widget? child) {
                       return ScaleTransition(
-                        scale: AlwaysStoppedAnimation<double>(1.0 - (widget.iconAnimationController!.value) * 0.2),
+                        scale: AlwaysStoppedAnimation<double>(1.0 -
+                            (widget.iconAnimationController!.value) * 0.2),
                         child: RotationTransition(
-                          turns: AlwaysStoppedAnimation<double>(Tween<double>(begin: 0.0, end: 24.0)
-                                  .animate(CurvedAnimation(parent: widget.iconAnimationController!, curve: Curves.fastOutSlowIn))
+                          turns: AlwaysStoppedAnimation<double>(Tween<double>(
+                                      begin: 0.0, end: 24.0)
+                                  .animate(CurvedAnimation(
+                                      parent: widget.iconAnimationController!,
+                                      curve: Curves.fastOutSlowIn))
                                   .value /
                               360),
                           child: Container(
@@ -91,11 +99,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               boxShadow: <BoxShadow>[
-                                BoxShadow(color: Colors.grey.withOpacity(0.6), offset: const Offset(2.0, 4.0), blurRadius: 8),
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.6),
+                                    offset: const Offset(2.0, 4.0),
+                                    blurRadius: 8),
                               ],
                             ),
                             child: ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(60.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(60.0)),
                               child: Image.asset('assets/images/userImage.png'),
                             ),
                           ),
@@ -169,11 +181,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
       ),
     );
   }
-  
-  void onTapped() {
 
-      print('Doing Something...');
-     // Print to console.
+  void onTapped() {
+    print('Doing Something...');
+    // Print to console.
   }
 
   Widget inkwell(DrawerList listData) {
@@ -213,9 +224,15 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       ? SizedBox(
                           width: 24,
                           height: 24,
-                          child: Image.asset(listData.imageName, color: widget.screenIndex == listData.index ? Colors.blue : Colors.black54),
+                          child: Image.asset(listData.imageName,
+                              color: widget.screenIndex == listData.index
+                                  ? Colors.blue
+                                  : Colors.black54),
                         )
-                      : Icon(listData.icon?.icon, color: widget.screenIndex == listData.index ? Colors.blue : Colors.black54),
+                      : Icon(listData.icon?.icon,
+                          color: widget.screenIndex == listData.index
+                              ? Colors.blue
+                              : Colors.black54),
                   const Padding(
                     padding: EdgeInsets.all(4.0),
                   ),
@@ -224,7 +241,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
-                      color: widget.screenIndex == listData.index ? Colors.blue : Colors.black54,
+                      color: widget.screenIndex == listData.index
+                          ? Colors.blue
+                          : Colors.black54,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -237,11 +256,17 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     builder: (BuildContext context, Widget? child) {
                       return Transform(
                         transform: Matrix4.translationValues(
-                            (MediaQuery.of(context).size.width * 0.75 - 64) * (1.0 - widget.iconAnimationController!.value - 1.0), 0.0, 0.0),
+                            (MediaQuery.of(context).size.width * 0.75 - 64) *
+                                (1.0 -
+                                    widget.iconAnimationController!.value -
+                                    1.0),
+                            0.0,
+                            0.0),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8, bottom: 8),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.75 - 64,
+                            width:
+                                MediaQuery.of(context).size.width * 0.75 - 64,
                             height: 46,
                             decoration: BoxDecoration(
                               color: Colors.blue.withOpacity(0.2),

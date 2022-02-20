@@ -15,12 +15,22 @@ class AuthRepo {
     return UserModel(authResult.user!.uid,
         displayName: authResult.user?.displayName);
   }
+  Future<UserModel> signInWithNumber(
+      {required String email, required String password}) async {
+    var authResult = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return UserModel(authResult.user!.uid,
+        displayName: authResult.user?.displayName);
+  }
 
   Future<UserModel> getUser() async {
     var firebaseUser = _auth.currentUser;
-
-    return UserModel(firebaseUser!.uid,
+    if(firebaseUser != null) {
+      return UserModel(firebaseUser.uid,
         displayName: firebaseUser.displayName);
+    } else {
+      return UserModel("0000");
+    }
   }
 
   Future<void> updateDisplayName(String displayName) async {
